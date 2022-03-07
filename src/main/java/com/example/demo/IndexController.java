@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.ClientAbortException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,6 +24,9 @@ import java.util.concurrent.Executors;
 public class IndexController {
 
     private final ExecutorService nonBlockingService = Executors.newCachedThreadPool();
+
+    @Autowired
+    SpringTemplateEngine springTemplateEngine;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -78,6 +86,31 @@ public class IndexController {
             }
             log.info("srb - finished");
             String msg = "<html><body><h1>hello world</body></html>";
+            out.write(msg.getBytes());
+        };
+        return new ResponseEntity<>(stream, HttpStatus.OK);
+    }
+
+    @GetMapping("/longRunningTemplate")
+    public ResponseEntity<StreamingResponseBody> longRunningTemplate(Model model) {
+        StreamingResponseBody stream = out -> {
+            try {
+                for (int i = 0; i < 20; ++i) {
+                    String msg = "<!-- update: %s -->".formatted(new Date().toString());
+                    out.write(msg.getBytes());
+                    out.flush();
+                    Thread.sleep(1000);
+                    log.info("longRunningTemplate - waited {} seconds", i);
+                }
+            } catch (ClientAbortException e) {
+                log.info("ignore - impatient user");
+            } catch (Exception ex) {
+                log.error("error in StreamingResponseBody", ex);
+            }
+            log.info("longRunningTemplate - finished");
+            Context context = new Context();
+            context.setVariable("data", "testing the template " + LocalTime.now());
+            String msg = springTemplateEngine.process("longRunning", context);
             out.write(msg.getBytes());
         };
         return new ResponseEntity<>(stream, HttpStatus.OK);

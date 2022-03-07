@@ -16,3 +16,10 @@ browser http://localhost/longRunning
 # 504 Gateway Time-out
 ----
 
+== Further info
+
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/servlet/mvc/method/annotation/StreamingResponseBody.html
+
+when using this option it is highly recommended to configure explicitly the TaskExecutor used in Spring MVC for executing asynchronous requests
+
+
