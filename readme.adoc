@@ -8,3 +8,11 @@ Problem:
 
 include::src/asciidoc/overview.dio[]
 
+[source,shell script]
+----
+browser http://localhost/
+browser http://localhost/longRunning
+# gets a timeout after 60 seconds
+# 504 Gateway Time-out
+----
+
