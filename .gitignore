@@ -1,5 +1,7 @@
 HELP.md
 target/
+# is comming from docker-compose with user 1001 that is unknown by docker-container
+\?
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

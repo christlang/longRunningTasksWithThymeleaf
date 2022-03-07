@@ -1,0 +1,10 @@
+
+== Example for long-running tasks
+
+Problem:
+
+* long-running task of application leads to timeout in nginx
+
+
+include::src/asciidoc/overview.dio[]
+

@@ -10,7 +10,7 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model) {
 
-        model.addAttribute("data", "abcdfe");
+        model.addAttribute("data", "1234 567  as");
 
         return "index";
     }
