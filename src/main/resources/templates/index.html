@@ -7,6 +7,9 @@
 <body>
     <h1>Hello <span data-th-text="${data}">test</span></h1>
 
-    <a data-th-href="@{longRunning}">example for long-running task</a>
+    <ul>
+        <li><a data-th-href="@{longRunning}">example for long-running task</a></li>
+        <li><a data-th-href="@{sse}">example for sse task</a></li>
+    </ul>
 </body>
 </html>
