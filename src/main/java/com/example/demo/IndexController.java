@@ -20,7 +20,7 @@ public class IndexController {
 
     @GetMapping("longRunning")
     public String longRunning(Model model) throws InterruptedException {
-        for (int i=0; i<90; ++i) {
+        for (int i=0; i<10; ++i) {
             Thread.sleep(1000);
             log.info("waited {} seconds", i);
         }
