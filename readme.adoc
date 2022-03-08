@@ -5,7 +5,7 @@ Problem:
 
 * long-running task of application leads to timeout in nginx
 
-image::src/asciidoc/overview.png[]
+image::src/asciidoc/overview.dio.png[]
 
 
 [source,shell script]
