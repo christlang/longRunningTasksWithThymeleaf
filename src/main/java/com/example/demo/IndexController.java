@@ -3,6 +3,7 @@ package com.example.demo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.ClientAbortException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -88,7 +89,9 @@ public class IndexController {
             String msg = "<html><body><h1>hello world</body></html>";
             out.write(msg.getBytes());
         };
-        return new ResponseEntity<>(stream, HttpStatus.OK);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_HTML);
+        return new ResponseEntity<>(stream, headers, HttpStatus.OK);
     }
 
     @GetMapping("/longRunningTemplate")
@@ -113,7 +116,9 @@ public class IndexController {
             String msg = springTemplateEngine.process("longRunning", context);
             out.write(msg.getBytes());
         };
-        return new ResponseEntity<>(stream, HttpStatus.OK);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_HTML);
+        return new ResponseEntity<>(stream, headers, HttpStatus.OK);
     }
 
 }
